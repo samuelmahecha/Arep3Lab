@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007BFF;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: .5rem;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: .5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        input[type="button"], input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: .5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        input[type="button"]:hover, input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .response {
+            margin-top: 1rem;
+            padding: .5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Form with GET</h1>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="John">
+        <input type="button" value="Submit" onclick="loadGetMsg()">
+    </form>
+    <div id="getrespmsg" class="response"></div>
+
+    <h1>Form with POST</h1>
+    <form>
+        <label for="postname">Name:</label>
+        <input type="text" id="postname" name="name" value="John">
+        <input type="button" value="Submit" onclick="loadPostMsg()">
+    </form>
+    <div id="postrespmsg" class="response"></div>
+</div>
+
+<script>
+    function loadGetMsg() {
+        let nameVar = document.getElementById("name").value;
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("getrespmsg").innerHTML = this.responseText;
+        }
+        xhttp.open("GET", "/staticfile?file=" + nameVar);
+        xhttp.send();
+    }
+
+    function loadPostMsg() {
+        let nameVar = document.getElementById("postname").value;
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("postrespmsg").innerHTML = this.responseText;
+        }
+        xhttp.open("POST", "/hellopost", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("name=" + nameVar);
+    }
+</script>
+</body>
+</html>
